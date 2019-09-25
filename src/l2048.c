@@ -36,7 +36,31 @@ int calc_points(board b)
     return points;
 }
 
-board move(board b, int direcetion)
+
+/*--------  Movement  --------*/
+/*
+    TODO:
+    - Work out general mechanism
+    - Implement for every case
+    - Test
+ */
+
+board move_left(board b)
+{
+    return b;
+}
+
+board move_right(board b)
+{
+    return b;
+}
+
+board move_up(board b)
+{
+    return b;
+}
+
+board move_down(board b)
 {
     return b;
 }
