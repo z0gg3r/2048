@@ -36,6 +36,15 @@ int calc_points(board b)
     return points;
 }
 
+
+/*--------  Movement  --------*/
+/*
+    TODO:
+    - Work out general mechanism
+    - Implement for every case
+    - Test
+ */
+
 board move_left(board b)
 {
     return b;
