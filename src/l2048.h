@@ -12,8 +12,11 @@ typedef struct board {
 #define MERGE(x) x*2
 
 board init(void);
-board move(board, int);
+board move_left(board);
+board move_right(board);
+board move_up(board);
+board move_down(board);
 int calc_points(board);
 
 
-#endif // !2048_H
+#endif // !L2048_H
