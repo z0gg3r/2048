@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=
 LIBS=
 
-OBJQ = board.o
+OBJQ = board.o main.o
 
 %.o: src/%.c
 	$(CC) -c -o bin/$@ $< $(CFLAGS)
