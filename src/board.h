@@ -22,5 +22,6 @@ void mv_up(board_t *b);
 void mv_down(board_t *b);
 
 void spawn(board_t *b, int new_round);
+int game_over(board_t *b);
 
 #endif

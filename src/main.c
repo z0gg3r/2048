@@ -36,6 +36,7 @@ int main()
 	mv_right(b);
 	printf("Moved right\n");
 	draw(b);
+	printf("%d\n", game_over(b));
 	free_board(b);
 	return 0;
 }

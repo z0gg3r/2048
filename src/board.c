@@ -3,6 +3,12 @@
 
 board_t *init()
 {
+	/*
+	 * We allocate space for the board and all
+	 * the columns and return the board as a
+	 * pointer.
+	 *
+	 */
 	board_t *b = malloc(sizeof(board_t));
 	b->points = 0;
 	for (int i = 0; i < NUM_COLUMNS; ++i) {
@@ -17,6 +23,12 @@ board_t *init()
 
 void free_board(board_t *b)
 {
+	/*
+	 * We free all the previously allocated
+	 * space, because it is not cleared when
+	 * the main thread returns.
+	 *
+	 */
 	for (int i = 0; i < NUM_COLUMNS; ++i) {
 		free(b->cols[i]);
 	}
@@ -254,4 +266,24 @@ void spawn(board_t *b, int new_round)
 	if (new_round) {
 		spawn(b, 0);
 	}
+}
+
+int game_over(board_t *b)
+{
+	/*
+	 * We count all Cells that are non-zero
+	 * if they sum up to 16, everythings full
+	 * and we return 1, this is only
+	 * good if used *after* a move but not
+	 * enforced.
+	 *
+	 */
+	int n = 0;
+	for (int i = 0; i < NUM_COLUMNS; ++i) {
+		for (int j = 0; j < NUM_CELLS; ++j) {
+			if (b->cols[i]->cells[j])
+				++n;
+		}
+	}
+	return n == 16;
 }
