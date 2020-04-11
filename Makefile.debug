@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-g
-LIBS=
+LIBS=-lncurses
 
 OBJQ = board.o main.o
 
