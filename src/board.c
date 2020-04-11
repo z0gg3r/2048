@@ -17,7 +17,7 @@ void mv_left(board_t *b)
 	int cell;
 	for (int i =  0; i < NUM_COLUMNS; ++i) {
 		for (int j = 0; j < NUM_CELLS; ++j) {
-			limit = NUM_CELLS - (1 + j;)
+			limit = NUM_CELLS - (1 + j);
 			while (idx < limit) {
 				cell = j + 1 + idx;
 				if (!b->cols[i]->cells[cell] && !b->cols[i]->cells[j]) {
