@@ -1,7 +1,14 @@
-2048: src/l2048.c src/game.c
-	gcc src/l2048.c src/game.c -o bin/2048.exe
+CC=/usr/bin/cc
+CFLAGS=
+LIBS=
+
+OBJQ = board.o
+
+%.o: src/%.c
+	$(CC) -c -o bin/$@ $< $(CFLAGS)
+
+2048: $(OBJQ)
+	$(CC) -o bin/$@ $(CLFAGS) $(LIBS)
 
 clean:
-	rm -f bin/2048.exe
-
-.PHONY: clean
+	rm -f bin/*
