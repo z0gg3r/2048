@@ -5,12 +5,12 @@
 #define NUM_CELLS 4
 
 typedef struct column_t {
-	int cells[NUM_CELLS]
+	int cells[NUM_CELLS];
 } column_t;
 
 typedef struct board_t {
 	int points;
-	columnt_t *cols[NUM_COLUMNS];
+	column_t *cols[NUM_COLUMNS];
 } board_t;
 
 void mv_left(board_t *b);
