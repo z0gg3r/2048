@@ -104,8 +104,8 @@ void mv_up(board_t *b)
 	int idx = 0;
 	int col;
 	for (int i = 0; i < NUM_CELLS; ++i) {
-		for (int j = 0; j < NUM_ROWS; ++j) {
-			limit = NUM_ROWS - (1 + j);
+		for (int j = 0; j < NUM_COLUMNS; ++j) {
+			limit = NUM_COLUMNS - (1 + j);
 			while (idx < limit) {
 				col = j + 1 + idx;
 				if (!b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
@@ -147,7 +147,7 @@ void mv_down(board_t *b)
 	int idx = 0;
 	int col;
 	for (int i = 0; i < NUM_CELLS; ++i) {
-		for (int j = NUM_ROWS - 1; j >= 0; --j) {
+		for (int j = NUM_COLUMNS - 1; j >= 0; --j) {
 			limit = j;
 			while (idx < limit) {
 				col = j - 1 - idx;
@@ -180,5 +180,15 @@ void mv_down(board_t *b)
 
 void calc_points(board_t *b)
 {
-
+	/*
+	 * We just iterate over the cells
+	 * and add them up.
+	 *
+	 */
+	int p = 0;
+	for (int i = 0; i < NUM_COLUMNS; ++i) {
+		for (int j = 0; j < NUM_CELLS; ++j) {
+			
+		}
+	}
 }
