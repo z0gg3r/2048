@@ -11,12 +11,11 @@ void init(board_t *b)
 	 */
 	int array[NUM_CELLS];
 	b->points = 0;
-	for (int i = 0; i < NUM_CELLS; ++i) {
-		array[i] = 0;
-	}
 	for (int i = 0; i < NUM_COLUMNS; ++i) {
 		column_t c;
-		c.cells = array;
+		for (int j = 0; j < NUM_CELLS; ++j) {
+			c.cells[j] = 0;
+		}
 		b->cols[i] = &c;
 	}
 }
