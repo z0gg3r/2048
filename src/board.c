@@ -1,6 +1,28 @@
 #include <stdlib.h>
 #include "board.h"
 
+board_t *init()
+{
+	board_t *b = malloc(sizeof(board_t));
+	b->points = 0;
+	for (int i = 0; i < NUM_COLUMNS; ++i) {
+		column_t *c = malloc(sizeof(column_t));
+		for (int j = 0; j < NUM_CELLS; ++j) {
+			c->cells[j] = 0;
+		}
+		b->cols[i] = c;
+	}
+	return b;
+}
+
+void free_board(board_t *b)
+{
+	for (int i = 0; i < NUM_COLUMNS; ++i) {
+		free(b->cols[i]);
+	}
+	free(b);
+}
+
 void mv_left(board_t *b)
 {
 	/*

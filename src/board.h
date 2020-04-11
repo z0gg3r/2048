@@ -13,6 +13,9 @@ typedef struct board_t {
 	column_t *cols[NUM_COLUMNS];
 } board_t;
 
+board_t *init();
+void free_board(board_t *b);
+
 void mv_left(board_t *b);
 void mv_right(board_t *b);
 void mv_up(board_t *b);

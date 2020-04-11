@@ -9,44 +9,34 @@ int main()
 {
 	time_t t;
 	srand((unsigned) time(&t));
-	board_t b;
-	b.points = 0;
-	for (int i = 0; i < NUM_COLUMNS; ++i) {
-		column_t *c = malloc(sizeof(column_t));
-		for (int j = 0; j < NUM_CELLS; ++j) {
-			c->cells[j] = 0;
-		}
-		b.cols[i] = c;
-	}
+	board_t *b = init();
 	printf("Inital\n");
-	draw(&b);
-	spawn(&b, 1);
+	draw(b);
+	spawn(b, 1);
 	printf("First spawn\n");
-	draw(&b);
-	mv_left(&b);
+	draw(b);
+	mv_left(b);
 	printf("Moved left\n");
-	draw(&b);
-	spawn(&b, 0);
+	draw(b);
+	spawn(b, 0);
 	printf("Next spawn\n");
-	draw(&b);
-	mv_down(&b);
+	draw(b);
+	mv_down(b);
 	printf("Moved down\n");
-	draw(&b);
-	spawn(&b, 0);
+	draw(b);
+	spawn(b, 0);
 	printf("Next spawn\n");
-	draw(&b);
-	mv_up(&b);
+	draw(b);
+	mv_up(b);
 	printf("Moved up\n");
-	draw(&b);
-	spawn(&b, 0);
+	draw(b);
+	spawn(b, 0);
 	printf("Next spawn\n");
-	draw(&b);
-	mv_right(&b);
+	draw(b);
+	mv_right(b);
 	printf("Moved right\n");
-	draw(&b);
-	for (int i = 0; i < NUM_COLUMNS; ++i) {
-		free(b.cols[i]);
-	}
+	draw(b);
+	free_board(b);
 	return 0;
 }
 
