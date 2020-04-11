@@ -188,7 +188,8 @@ void calc_points(board_t *b)
 	int p = 0;
 	for (int i = 0; i < NUM_COLUMNS; ++i) {
 		for (int j = 0; j < NUM_CELLS; ++j) {
-			
+			p += b->cols[i]->cells[j];		
 		}
 	}
+	b->points = p;
 }
