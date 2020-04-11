@@ -8,7 +8,7 @@ OBJQ = board.o
 	$(CC) -c -o bin/$@ $< $(CFLAGS)
 
 2048: $(OBJQ)
-	$(CC) -o bin/$@ $(CLFAGS) $(LIBS)
+	$(CC) -o bin/$@ $^ $(CLFAGS) $(LIBS)
 
 clean:
 	rm -f bin/*
