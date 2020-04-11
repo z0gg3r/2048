@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <time.h>
 #include "board.h"
 
 void init(board_t *b)
@@ -214,7 +213,7 @@ void calc_points(board_t *b)
 	b->points = p;
 }
 
-void spawn(board_t *b, int startup, int new_round)
+void spawn(board_t *b, int new_round)
 {
 	/*
 	 * Here we spawn new tiles on
@@ -222,18 +221,9 @@ void spawn(board_t *b, int startup, int new_round)
 	 * 2 or 4 in value and only one
 	 * is spawned at a time, however
 	 * we spawn two if it is a new
-	 * round and if it's also the
-	 * first round of the instance
-	 * of the program we need to
-	 * seed srand.
+	 * round.
 	 *
 	 */
-	if (startup) {
-		// First round, so we seed
-		// srand
-		time_t t;
-		srand((unsigned) time(&t));
-	}
 	// Generate a random position for
 	// the new tile
 	int col = rand() % NUM_COLUMNS;
@@ -252,9 +242,9 @@ void spawn(board_t *b, int startup, int new_round)
 	} else if (!b->cols[col]->cells[cell]) {
 		b->cols[col]->cells[cell] = 2;
 	} else {
-		spawn(b, 0, new_round);
+		spawn(b, new_round);
 	}
 	if (new_round) {
-		spawn(b, 0, 0);
+		spawn(b, 0);
 	}
 }

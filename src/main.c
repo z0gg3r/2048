@@ -1,13 +1,17 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "board.h"
 
 void draw(board_t *b);
 
 int main()
 {
+	time_t t;
+	srand((unsigned) time(&t));
 	board_t b;
 	init(&b);
-	spawn(&b, 1, 1);
+	spawn(&b, 1);
 	draw(&b);
 	mv_left(&b);
 	draw(&b);
