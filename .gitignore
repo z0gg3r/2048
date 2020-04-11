@@ -1,6 +1,6 @@
 
-# Created by https://www.gitignore.io/api/c
-# Edit at https://www.gitignore.io/?templates=c
+# Created by https://www.gitignore.io/api/c,vim
+# Edit at https://www.gitignore.io/?templates=c,vim
 
 ### C ###
 # Prerequisites
@@ -56,6 +56,29 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-.vscode/
-# End of https://www.gitignore.io/api/c
+### Vim ###
+# Swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
 
+# Session
+Session.vim
+Sessionx.vim
+
+# Temporary
+.netrwhist
+*~
+
+# Auto-generated tag files
+tags
+
+# Persistent undo
+[._]*.un~
+
+# Coc configuration directory
+.vim
+
+# End of https://www.gitignore.io/api/c,vim
