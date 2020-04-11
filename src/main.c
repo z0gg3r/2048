@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "board.h"
 
+void draw(board_t *b);
+
 int main()
 {
 	board_t b;
@@ -14,7 +16,7 @@ int main()
 void draw(board_t *b)
 {
 	printf("Points: %d \n", b->points);
-	for (int i = 0; i < NUM_COLS; ++i) {
+	for (int i = 0; i < NUM_COLUMNS; ++i) {
 		for (int j = 0; j < NUM_CELLS; ++j) {
 			printf(" %d ", b->cols[i]->cells[j]);
 		}
