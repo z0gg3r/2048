@@ -5,7 +5,6 @@
 void init(board_t *b)
 {
 	int array[NUM_CELLS];
-	board_t b;
 	b.points = 0;
 	for (int i = 0; i < NUM_CELLS; ++i) {
 		array[i] = 0;
@@ -234,7 +233,7 @@ void spawn(board_t *b, int startup, int new_round)
 	// Generate a random position for
 	// the new tile
 	int col = rand() % NUM_COLUMNS;
-	int cell = rand() % NUM_ROWS;
+	int cell = rand() % NUM_CELL;
 	// The original had a 10% chance
 	// for the new tile to be a four,
 	// instead of a 2, so we try to
