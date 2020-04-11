@@ -113,7 +113,7 @@ void mv_up(board_t *b)
 					// Current cell and the other cell are both zero,
 					// Look at the next cell.
 					++idx;
-				} else if (b->cols[col]->cells[i] && !b->cols[col]->cells[i]) {
+				} else if (b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
 					// Current cell is zero, but we have found a
 					// non-zero one, move and continue as there
 					// might be further merge candidates down
