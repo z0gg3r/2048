@@ -238,7 +238,7 @@ void spawn(board_t *b, int startup, int new_round)
 	// Generate a random position for
 	// the new tile
 	int col = rand() % NUM_COLUMNS;
-	int cell = rand() % NUM_CELL;
+	int cell = rand() % NUM_CELLS;
 	// The original had a 10% chance
 	// for the new tile to be a four,
 	// instead of a 2, so we try to
