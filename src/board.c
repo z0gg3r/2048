@@ -69,7 +69,7 @@ void mv_right(board_t *b)
 			limit = j;
 			while (idx < limit) {
 				cell = j - 1 - idx;
-				if (b->cols[i]->cells[j] && b->cols[i]->cells[j] > b->cols[i]->cells[j]) {
+				if (b->cols[i]->cells[j] && b->cols[i]->cells[cell] > b->cols[i]->cells[j]) {
 					// There might be merge candidates down the line, but
 					// they are blocked, thus we break.
 					break;
