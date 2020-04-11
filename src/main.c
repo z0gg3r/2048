@@ -18,7 +18,6 @@ int main()
 		}
 		b.cols[i] = &c;
 	}
-	init(&b);
 	spawn(&b, 1);
 	draw(&b);
 	mv_left(&b);

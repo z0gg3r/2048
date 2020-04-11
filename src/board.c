@@ -1,23 +1,6 @@
 #include <stdlib.h>
 #include "board.h"
 
-void init(board_t *b)
-{
-	/*
-	 * We get a pointer to a board_t
-	 * and fill everything with zeros.
-	 *
-	 */
-	b->points = 0;
-	for (int i = 0; i < NUM_COLUMNS; ++i) {
-		column_t c;
-		for (int j = 0; j < NUM_CELLS; ++j) {
-			c.cells[j] = 0;
-		}
-		b->cols[i] = &c;
-	}
-}
-
 void mv_left(board_t *b)
 {
 	/*
