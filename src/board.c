@@ -21,7 +21,11 @@ void mv_left(board_t *b)
 			limit = NUM_CELLS - (1 + j);
 			while (idx < limit) {
 				cell = j + 1 + idx;
-				if (!b->cols[i]->cells[cell] && !b->cols[i]->cells[j]) {
+				if (b->cols[i]->cells[j] && b->cols[i]->cells[cell] > b->cols[i]->cells[j]) {
+					// There might be merge candidates down the line but
+					// they are blocked and thus we break.
+					break;
+				} else if (!b->cols[i]->cells[cell] && !b->cols[i]->cells[j]) {
 					// Current cell and the other cell we are looking at
 					// are both empty. Increment idx and look at the next
 					// cell.
@@ -65,7 +69,11 @@ void mv_right(board_t *b)
 			limit = j;
 			while (idx < limit) {
 				cell = j - 1 - idx;
-				if (!b->cols[i]->cells[cell] && !b->cols[i]->cells[j]) {
+				if (b->cols[i]->cells[j] && b->cols[i]->cells[j] > b->cols[i]->cells[j]) {
+					// There might be merge candidates down the line, but
+					// they are blocked, thus we break.
+					break;
+				} else if (!b->cols[i]->cells[cell] && !b->cols[i]->cells[j]) {
 					// Current cell and the other cell we are looking at
 					// are both empty. Increment idx and look at the next
 					// cell.
@@ -109,7 +117,11 @@ void mv_up(board_t *b)
 			limit = NUM_COLUMNS - (1 + j);
 			while (idx < limit) {
 				col = j + 1 + idx;
-				if (!b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
+				if (b->cols[j]->cells[i] && b->cols[col]->cells[i] > b->cols[j]->cells[i]) {
+					// There might be merge candidates down the line,
+					// but they are blocked and thus we break.
+					break;
+				} else if (!b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
 					// Current cell and the other cell are both zero,
 					// Look at the next cell.
 					++idx;
@@ -153,7 +165,12 @@ void mv_down(board_t *b)
 			limit = j;
 			while (idx < limit) {
 				col = j - 1 - idx;
-				if (!b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
+				if (b->cols[j]->cells[i] && b->cols[col]->cells[i] > b->cols[j]->cells[i]) {
+					// There might be merge candidates down
+					// the line, but they are blocked, thus
+					// we break
+					break;
+				} else if (!b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
 					// Current cell and the other one are both
 					// zero, so move to the next cell
 					++idx;
