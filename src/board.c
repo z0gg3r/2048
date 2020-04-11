@@ -4,6 +4,11 @@
 
 void init(board_t *b)
 {
+	/*
+	 * We get a pointer to a board_t
+	 * and fill everything with zeros.
+	 *
+	 */
 	int array[NUM_CELLS];
 	b.points = 0;
 	for (int i = 0; i < NUM_CELLS; ++i) {
