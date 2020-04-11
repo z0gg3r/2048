@@ -43,6 +43,7 @@ void mv_left(board_t *b)
 					++idx;
 				}
 			}
+			idx = 0;
 		}
 	}
 	calc_points(b);
@@ -86,7 +87,98 @@ void mv_right(board_t *b)
 					++idx;
 				}
 			}
+			idx = 0;
 		}
 	}
 	calc_points(b);
+}
+
+void mv_up(board_t *b)
+{
+	/*
+	 * This is just like mv_left, only with
+	 * variables swapped.
+	 *
+	 */
+	int limit;
+	int idx = 0;
+	int col;
+	for (int i = 0; i < NUM_CELLS; ++i) {
+		for (int j = 0; j < NUM_ROWS; ++j) {
+			limit = NUM_ROWS - (1 + j);
+			while (idx < limit) {
+				col = j + 1 + idx;
+				if (!b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
+					// Current cell and the other cell are both zero,
+					// Look at the next cell.
+					++idx;
+				} else if (b->cols[col]->cells[i] && !b->cols[col]->cells[i]) {
+					// Current cell is zero, but we have found a
+					// non-zero one, move and break. 
+					b->cols[j]->cells[i] = b->cols[col]->cells[i];
+					b->cols[col]->cells[i] = 0;
+					break;
+				} else if (b->cols[col]->cells[i] == b->cols[j]->cells[i]) {
+					// Current cell and next non-zero one match, merge
+					// and break;
+					b->cols[j]->cells[i] *= 2;
+					b->cols[col]->cells[i] = 0;
+					break;
+				} else {
+					// Catch-All guard thingy
+					++idx;
+				}
+			}
+			idx = 0;
+		}
+	}
+	calc_points(b);
+}
+
+void mv_down(board_t *b)
+{
+	/*
+	 * This is just like mv_up, only from
+	 * the other side, so like mv_right
+	 * is to mv_left...
+	 *
+	 */
+	int limit;
+	int idx = 0;
+	int col;
+	for (int i = 0; i < NUM_CELLS; ++i) {
+		for (int j = NUM_ROWS - 1; j >= 0; --j) {
+			limit = j;
+			while (idx < limit) {
+				col = j - 1 - idx;
+				if (!b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
+					// Current cell and the other one are both
+					// zero, so move to the next cell
+					++idx;
+				} else if (b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
+					// Current cell is zero, but we've found a
+					// non-zero one, so move and break
+					b->cols[j]->cells[i] = b->cols[col]->cells[i];
+					b-cols[col]->cells[i] = 0;
+					break;
+				} else if (b->cols[col]->cells[i] == b->cols[j]->cells[i]) {
+					// Current cell and the next non-zero oen
+					// match, so merge and break.
+					b->cols[j]->cells[i] *= 2;
+					b->cols[col]->cells[i] = 0;
+					break;
+				} else {
+					// Catch-All guard thingy
+					++idx;
+				}
+			}
+			idx = 0;
+		}
+	}
+	calc_points(b);
+}
+
+void calc_points(board_t *b)
+{
+
 }
