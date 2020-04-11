@@ -28,15 +28,16 @@ void mv_left(board_t *b)
 					++idx;
 				} else if (b->cols[i]->cells[cell] && !b->cols[i]->cells[j]) {
 					// There is a non-empty cell and the current cell is empty,
-					// so move the value and break.
+					// so move the value and continue to look, cause there
+					// might be a merge candiate further down.
 					b->cols[i]->cells[j] = b->cols[i]->cells[cell];
 					b->cols[i]->cells[cell] = 0;
-					break;
 				} else if (b->cols[i]->cells[cell] == b->cols[i]->cells[j]) {
 					// The next non-empty cell and the current one match,
 					// so merge the values and break;
 					b->cols[i]->cells[j] *= 2;
 					b->cols[i]->cells[cell] = 0;
+					b->points += b->cols[i]->cells[j];
 					break;	
 				} else {
 					// Not really needed, but will stay as a kind of
@@ -47,7 +48,6 @@ void mv_left(board_t *b)
 			idx = 0;
 		}
 	}
-	calc_points(b);
 }
 
 void mv_right(board_t *b)
@@ -72,15 +72,16 @@ void mv_right(board_t *b)
 					++idx;
 				} else if (b->cols[i]->cells[cell] && !b->cols[i]->cells[j]) {
 					// There is a non empty cell and the current cell is empty,
-					// so move the value and break.
+					// so move the value and continue, as there might be
+					// further merge candidates down the line.
 					b->cols[i]->cells[j] = b->cols[i]->cells[cell];
 					b->cols[i]->cells[cell] = 0;
-					break;
 				} else if (b->cols[i]->cells[cell] == b->cols[i]->cells[j]) {
 					// The next non-empty cell and the current one match,
 					// so merge the values and break.
 					b->cols[i]->cells[j] *= 2;
 					b->cols[i]->cells[cell] = 0;
+					b->points += b->cols[i]->cells[j];
 					break;
 				} else {
 					// Not really needed, but will stay as a kind of
@@ -91,7 +92,6 @@ void mv_right(board_t *b)
 			idx = 0;
 		}
 	}
-	calc_points(b);
 }
 
 void mv_up(board_t *b)
@@ -115,15 +115,17 @@ void mv_up(board_t *b)
 					++idx;
 				} else if (b->cols[col]->cells[i] && !b->cols[col]->cells[i]) {
 					// Current cell is zero, but we have found a
-					// non-zero one, move and break. 
+					// non-zero one, move and continue as there
+					// might be further merge candidates down
+					// the line.
 					b->cols[j]->cells[i] = b->cols[col]->cells[i];
 					b->cols[col]->cells[i] = 0;
-					break;
 				} else if (b->cols[col]->cells[i] == b->cols[j]->cells[i]) {
 					// Current cell and next non-zero one match, merge
 					// and break;
 					b->cols[j]->cells[i] *= 2;
 					b->cols[col]->cells[i] = 0;
+					b->points += b->cols[j]->cells[i];
 					break;
 				} else {
 					// Catch-All guard thingy
@@ -133,7 +135,6 @@ void mv_up(board_t *b)
 			idx = 0;
 		}
 	}
-	calc_points(b);
 }
 
 void mv_down(board_t *b)
@@ -158,15 +159,17 @@ void mv_down(board_t *b)
 					++idx;
 				} else if (b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
 					// Current cell is zero, but we've found a
-					// non-zero one, so move and break
+					// non-zero one, so move and continue as
+					// there might be further merge candidates
+					// down the line.
 					b->cols[j]->cells[i] = b->cols[col]->cells[i];
 					b->cols[col]->cells[i] = 0;
-					break;
-				} else if (b->cols[col]->cells[i] == b->cols[j]->cells[i]) {
+					} else if (b->cols[col]->cells[i] == b->cols[j]->cells[i]) {
 					// Current cell and the next non-zero oen
 					// match, so merge and break.
 					b->cols[j]->cells[i] *= 2;
 					b->cols[col]->cells[i] = 0;
+					b->points += b->cols[j]->cells[i];
 					break;
 				} else {
 					// Catch-All guard thingy
@@ -176,23 +179,6 @@ void mv_down(board_t *b)
 			idx = 0;
 		}
 	}
-	calc_points(b);
-}
-
-void calc_points(board_t *b)
-{
-	/*
-	 * We just iterate over the cells
-	 * and add them up.
-	 *
-	 */
-	int p = 0;
-	for (int i = 0; i < NUM_COLUMNS; ++i) {
-		for (int j = 0; j < NUM_CELLS; ++j) {
-			p += b->cols[i]->cells[j];		
-		}
-	}
-	b->points = p;
 }
 
 void spawn(board_t *b, int new_round)

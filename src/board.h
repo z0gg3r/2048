@@ -18,7 +18,6 @@ void mv_right(board_t *b);
 void mv_up(board_t *b);
 void mv_down(board_t *b);
 
-void calc_points(board_t *b);
 void spawn(board_t *b, int new_round);
 
 #endif
