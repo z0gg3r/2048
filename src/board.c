@@ -2,6 +2,21 @@
 #include <time.h>
 #include "board.h"
 
+void init(board_t *b)
+{
+	int array[NUM_CELLS];
+	board_t b;
+	b.points = 0;
+	for (int i = 0; i < NUM_CELLS; ++i) {
+		array[i] = 0;
+	}
+	for (int i = 0; i < NUM_COLUMNS; ++i) {
+		column_t c;
+		c.cells = array;
+		b.cols[i] = &c;
+	}
+}
+
 void mv_left(board_t *b)
 {
 	/*

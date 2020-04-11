@@ -13,11 +13,14 @@ typedef struct board_t {
 	column_t *cols[NUM_COLUMNS];
 } board_t;
 
+void init(board_t *b);
+
 void mv_left(board_t *b);
 void mv_right(board_t *b);
 void mv_up(board_t *b);
 void mv_down(board_t *b);
 
 void calc_points(board_t *b);
+void spawn(board_t *b, int startup, int new_round);
 
 #endif
