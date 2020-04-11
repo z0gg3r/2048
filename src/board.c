@@ -159,7 +159,7 @@ void mv_down(board_t *b)
 					// Current cell is zero, but we've found a
 					// non-zero one, so move and break
 					b->cols[j]->cells[i] = b->cols[col]->cells[i];
-					b-cols[col]->cells[i] = 0;
+					b->cols[col]->cells[i] = 0;
 					break;
 				} else if (b->cols[col]->cells[i] == b->cols[j]->cells[i]) {
 					// Current cell and the next non-zero oen
