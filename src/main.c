@@ -18,10 +18,31 @@ int main()
 		}
 		b.cols[i] = c;
 	}
+	printf("Inital\n");
 	draw(&b);
 	spawn(&b, 1);
+	printf("First spawn\n");
 	draw(&b);
 	mv_left(&b);
+	printf("Moved left\n");
+	draw(&b);
+	spawn(&b, 0);
+	printf("Next spawn\n");
+	draw(&b);
+	mv_down(&b);
+	printf("Moved down\n");
+	draw(&b);
+	spawn(&b, 0);
+	printf("Next spawn\n");
+	draw(&b);
+	mv_up(&b);
+	printf("Moved up\n");
+	draw(&b);
+	spawn(&b, 0);
+	printf("Next spawn\n");
+	draw(&b);
+	mv_right(&b);
+	printf("Moved right\n");
 	draw(&b);
 	for (int i = 0; i < NUM_COLUMNS; ++i) {
 		free(b.cols[i]);
