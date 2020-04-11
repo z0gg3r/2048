@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <time.h>
 #include "board.h"
 
 void mv_left(board_t *b)
@@ -192,4 +194,49 @@ void calc_points(board_t *b)
 		}
 	}
 	b->points = p;
+}
+
+void spawn(board_t *b, int startup, int new_round)
+{
+	/*
+	 * Here we spawn new tiles on
+	 * the board. They can be either
+	 * 2 or 4 in value and only one
+	 * is spawned at a time, however
+	 * we spawn two if it is a new
+	 * round and if it's also the
+	 * first round of the instance
+	 * of the program we need to
+	 * seed srand.
+	 *
+	 */
+	if (startup) {
+		// First round, so we seed
+		// srand
+		time_t t;
+		srand((unsigned) time(&t));
+	}
+	// Generate a random position for
+	// the new tile
+	int col = rand() % NUM_COLUMNS;
+	int cell = rand() % NUM_ROWS;
+	// The original had a 10% chance
+	// for the new tile to be a four,
+	// instead of a 2, so we try to
+	// mimick that here.
+	int four = (rand() % 100) <= 10;
+	// Here we simply set the variables
+	// in the position, if that's already
+	// set then we just call spawn again
+	
+	if (four && !b->cols[col]->cells[cell]) {
+		b->cols[col]->cells[cell] = 4;
+	} else if (!b->cols[col]->cells[cell]) {
+		b->cols[col]->cells[cell] = 2;
+	} else {
+		spawn(b, 0, new_round);
+	}
+	if (new_round) {
+		spawn(b, 0, 0);
+	}
 }
