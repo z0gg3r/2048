@@ -1,4 +1,4 @@
-CC=/usr/bin/cc
+CC=gcc
 CFLAGS=
 LIBS=
 
