@@ -8,7 +8,6 @@ void init(board_t *b)
 	 * and fill everything with zeros.
 	 *
 	 */
-	int array[NUM_CELLS];
 	b->points = 0;
 	for (int i = 0; i < NUM_COLUMNS; ++i) {
 		column_t c;
@@ -232,12 +231,12 @@ void spawn(board_t *b, int new_round)
 	// for the new tile to be a four,
 	// instead of a 2, so we try to
 	// mimick that here.
-	int four = (rand() % 100) <= 10;
+	int four = (rand() % 100);
 	// Here we simply set the variables
 	// in the position, if that's already
 	// set then we just call spawn again
 	
-	if (four && !b->cols[col]->cells[cell]) {
+	if (four <= 10 && !b->cols[col]->cells[cell]) {
 		b->cols[col]->cells[cell] = 4;
 	} else if (!b->cols[col]->cells[cell]) {
 		b->cols[col]->cells[cell] = 2;

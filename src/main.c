@@ -10,6 +10,14 @@ int main()
 	time_t t;
 	srand((unsigned) time(&t));
 	board_t b;
+	b.points = 0;
+	for (int i = 0; i < NUM_COLUMNS; ++i) {
+		column_t c;
+		for (int j = 0; j < NUM_CELLS; ++j) {
+			c.cells[j] = 0;
+		}
+		b.cols[i] = &c;
+	}
 	init(&b);
 	spawn(&b, 1);
 	draw(&b);
