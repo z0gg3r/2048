@@ -38,13 +38,53 @@ void free_board(board_t *b)
 void mv_left(board_t *b)
 {
 	/*
-	 * We take every column and look for every cell for the following conditions:
-	 * 	1. Is the entire Column just empty? If yes, do nothing.
-	 * 	2. Is the next non-empty cell the same as the current cell? If yes, merge.
-	 * 	3. Is the current cell empty and there is a non-empty cell? If yes, move.
-	 * 	4. Is the next non-empty cell not the same as the current cell? If yes, do nothing.
-	 * If a condition is met for a current cell and we have to move or merge, then we break
-	 * and move on to the next cell.
+	 * For every cell in every column we look at the cell (`current cell`) and
+	 * a differenct cell (`other cell`) and perform some condition checks to see
+	 * how we should behave. They are listed in the order they are performed.
+	 * 	0. Are neither the current nor the other cell empty and are they
+	 * 	   also both not the same?
+	 * 	1. Are the current cell and the other cell empty?
+	 * 	2. Is the other cell filled with a value. but the current cell is
+	 * 	   empty?
+	 * 	3. Are the values of the current and the other cell the same? (We
+	 * 	   don't have to check for empty cells here, because we already
+	 * 	   know that they are not empty)
+	 * 	4. Is anything else true? Like really? Maybe a cell is in some
+	 * 	   sort of superposition because we've used threadsanitze.
+	 * 
+	 * Now we can not react to all conditions in the same manner (if we could
+	 * we would not have to check for anything and just do that), so here is
+	 * how we respond (ordered according to the numbers up there):
+	 * 	0. We move our current cell one up. Why? Because we have a 
+	 * 	   current cell that is filled with a value and a diffrent cell
+	 * 	   that is also filled with a value, but those aren't the same,
+	 * 	   so even if there is a cell with a value somwhere behind that
+	 * 	   other cell, we can't reach it because the other cell blocks it.
+	 * 	1. Welp,  can't do anything, but move the other cell one up.
+	 * 	2. Yes! That is good. We can now move the value of the other cell
+	 * 	   into the current cell and then empty the other cell. We can't
+	 * 	   break however, since a merger would at this point be still
+	 * 	   legal and thus we instead just move `other cell` one up.
+	 * 	3. Yes! That is good, again. We have a match in value, the current
+	 * 	   cell and that other cell can be merged, so we multiply the
+	 * 	   current cell by two, empty the other cell and add the value of
+	 * 	   the current cell to the points. We then can move on to the next
+	 * 	   cell to be our current cell.
+	 * 	4. Since we do not know how and why this evaluated to true, we will
+	 * 	   not do anything and act as if they were both empty. We can not
+	 * 	   merge case 1 with this, since we have to check if the cells are
+	 * 	   both empty, but we might be able to remove this, but it does not
+	 * 	   hurt so why should we?
+	 *
+	 * Since all move functions work based upon this logic, only the difference
+	 * in the mathy bit are explained.
+	 * 
+	 * Mathy bit:
+	 * limit 	--> How many cells are after the other cell we are currently looking
+	 * 		    at. This is calculated as the number of cells minus the original
+	 * 		    other cell position.
+	 * idx		--> The offset of the other cell from the original other cell (j + 1).
+	 * cell		--> The position of the other cell.
 	 *
 	 */
 	int limit;
@@ -91,8 +131,16 @@ void mv_left(board_t *b)
 void mv_right(board_t *b)
 {
 	/*
-	 * This is like mv_left, but we move right instead,
-	 * so we do the opposite of what we did with mv_left.
+	 * For the logic see `mv_left`.
+	 *
+	 * Mathy bit:
+	 * limit	--> Same as mv_left, but limit is always equal to j.
+	 * idx		--> Same as mv_left.
+	 * cell		--> Same as left.
+	 *
+	 * Whereas in mv_left we only had to count up until the limit in both
+	 * for loops, we now have to count down from one less then the limit
+	 * in the second for loop.
 	 *
 	 */
 	int limit;
@@ -139,9 +187,16 @@ void mv_right(board_t *b)
 void mv_up(board_t *b)
 {
 	/*
-	 * This is just like mv_left, only with
-	 * variables swapped.
+	 * For the logic see `mv_left`
 	 *
+	 * Mathy bit:
+	 * limit 	--> Same as mv_left
+	 * idx 		--> Same as mv_left
+	 * cell 	--> Same as mv_left, only named `col`
+	 *
+	 * While the for loops are theoretically the same, the positions
+	 * are swapped, i.e. the outer for loop is for the number of cells
+	 * while the inner one is for the columns.
 	 */
 	int limit;
 	int idx = 0;
@@ -186,9 +241,15 @@ void mv_up(board_t *b)
 void mv_down(board_t *b)
 {
 	/*
-	 * This is just like mv_up, only from
-	 * the other side, so like mv_right
-	 * is to mv_left...
+	 * For the logic see `mv_left`
+	 *
+	 * Mathy bit:
+	 * limit --> Same as mv_right
+	 * idx --> Same as mv_right
+	 * cell --> same as mv_right, only called `col`
+	 *
+	 * Here we have the loop swap of mv_up combined with
+	 * the counting swap of mv_right
 	 *
 	 */
 	int limit;
@@ -238,9 +299,7 @@ void spawn(board_t *b)
 	 * Here we spawn new tiles on
 	 * the board. They can be either
 	 * 2 or 4 in value and only one
-	 * is spawned at a time, however
-	 * we spawn two if it is a new
-	 * round.
+	 * is spawned at a time.
 	 *
 	 */
 	// Generate a random position for
@@ -272,7 +331,12 @@ int game_over(board_t *b)
 	 * if they sum up to 16, everythings full
 	 * and we return 1, this is only
 	 * good if used *after* a move but not
-	 * enforced.
+	 * enforced. That means it depends upon
+	 * the time when it is called and it
+	 * does not care at what state the game
+	 * is at that point. Instead of checking
+	 * for game over we actually check if more
+	 * tiles could be spawned in or not.
 	 *
 	 */
 	int n = 0;
@@ -284,3 +348,4 @@ int game_over(board_t *b)
 	}
 	return n == 16;
 }
+
