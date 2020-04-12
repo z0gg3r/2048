@@ -232,7 +232,7 @@ void mv_down(board_t *b)
 	}
 }
 
-void spawn(board_t *b, int new_round)
+void spawn(board_t *b)
 {
 	/*
 	 * Here we spawn new tiles on
@@ -261,10 +261,7 @@ void spawn(board_t *b, int new_round)
 	} else if (!b->cols[col]->cells[cell]) {
 		b->cols[col]->cells[cell] = 2;
 	} else {
-		spawn(b, new_round);
-	}
-	if (new_round) {
-		spawn(b, 0);
+		spawn(b);
 	}
 }
 
