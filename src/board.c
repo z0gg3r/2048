@@ -284,3 +284,4 @@ int game_over(board_t *b)
 	}
 	return n == 16;
 }
+

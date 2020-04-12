@@ -9,6 +9,10 @@
 #define UP 2
 #define DOWN 3
 #define RESET 4
+#define QUIT 5
+
+static int FLAG_RESET = 0;
+static int FLAG_QUIT = 0;
 
 void draw();
 int remap(int ch);
@@ -22,8 +26,8 @@ int main()
 	keypad(stdscr, 1);
 	time_t t;
 	srand((unsigned) time(&t));
-	int return_code = 4;
-	while (return_code == 4) {
+	int return_code = RESET;
+	while (return_code == RESET) {
 		return_code = game_loop();
 	}
 	endwin();
@@ -32,6 +36,7 @@ int main()
 
 int game_loop()
 {
+	FLAG_RESET = 0;
 	clear();
 	board_t *b = init();
 	int stop = game_over(b);
@@ -57,17 +62,30 @@ int game_loop()
 				mv_down(b);
 				break;
 			case RESET:
-				// reset(b);
+				FLAG_RESET = 1;
+				break;
+			case QUIT:
+				FLAG_QUIT = 1;
 				break;
 		}
-		stop = game_over(b);
+		stop = FLAG_QUIT || FLAG_RESET || game_over(b);
 	}
 	clear();
 	printw("Game Over!\n Final Points: %d\n", b->points);
-	printw("(Press r to start a new game, anything other then r to quit.)");
 	free_board(b);
+	if (FLAG_RESET) {
+		return RESET;
+	}
+	if (FLAG_QUIT) {
+		return QUIT;
+	}
+	printw("(Press r to start a new game and q to quit.)");
 	ch = getch();
 	ch = remap(ch);
+	while (ch != RESET && ch != QUIT) {
+		ch = getch();
+		ch = remap(ch);
+	}
 	return ch;
 }
 
@@ -95,5 +113,7 @@ int remap(int ch)
 		return DOWN;
 	} else if (ch == 'r' || ch == 'R') {
 		return RESET;
+	} else if (ch == 'q' || ch == 'Q') {
+		return QUIT;
 	}
 }
