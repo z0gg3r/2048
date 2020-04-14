@@ -1,2 +1,1 @@
-src/*.h liguist-language=C
-*.h liguist-language=C
+src/*.h linguist-language=C
