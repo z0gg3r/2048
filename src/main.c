@@ -11,12 +11,15 @@
 #define RESET 4
 #define QUIT 5
 
+#define SPACING 10
+
 static int FLAG_RESET = 0;
 static int FLAG_QUIT = 0;
 
-void draw();
+void draw(board_t *b, WINDOW *w);
+WINDOW *init_win();
 int remap(int ch);
-int game_loop();
+int game_loop(WINDOW *w);
 
 int main()
 {
@@ -30,17 +33,19 @@ int main()
 	cbreak();
 	noecho();
 	keypad(stdscr, 1);
+	WINDOW *w = init_win();
 	time_t t;
 	srand((unsigned) time(&t));
 	int return_code = RESET;
 	while (return_code == RESET) {
-		return_code = game_loop();
+		return_code = game_loop(w);
 	}
 	endwin();
+	delwin(w);
 	return 0;
 }
 
-int game_loop()
+int game_loop(WINDOW *w)
 {
 	/*
 	 * We first unset the reset flag (so that we can actually play
@@ -65,10 +70,11 @@ int game_loop()
 	spawn(b);
 	while (!stop) {
 		spawn(b);
-		draw(b);
+		draw(b, w);
 		ch = getch();
 		ch = remap(ch);
-		clear();
+		werase(stdscr);
+		werase(w);
 		switch (ch) {
 			case LEFT:
 				mv_left(b);
@@ -110,7 +116,7 @@ int game_loop()
 	return ch;
 }
 
-void draw(board_t *b)
+void draw(board_t *b, WINDOW *w)
 {
 	/*
 	 * Currently we first print the number of points
@@ -123,11 +129,23 @@ void draw(board_t *b)
 	printw("Points: %d \n", b->points);
 	for (int i = 0; i < NUM_COLUMNS; ++i) {
 		for (int j = 0; j < NUM_CELLS; ++j) {
-			wprintw(stdscr, " %d ", b->cols[i]->cells[j]);
+			wprintw(w, "%*d", 8, b->cols[i]->cells[j]);
 		}
-		printw("\n");
+		wprintw(w, "\n\n\n\n");
 	}
 	refresh();
+	wrefresh(w);
+}
+
+WINDOW *init_win()
+{
+	WINDOW *w;
+	int height = 4 * NUM_COLUMNS;
+	int width = 8 * NUM_CELLS;
+	int x = (LINES - height) / 2;
+	int y = (COLS - width) / 2;
+	w = newwin(height, width, x, y);
+	return w;
 }
 
 int remap(int ch)
