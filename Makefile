@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=
+CFLAGS=-Wall
 LIBS=-lncurses
 
 OBJQ = board.o main.o
