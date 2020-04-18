@@ -171,4 +171,5 @@ int remap(int ch)
 	} else if (ch == 'q' || ch == 'Q') {
 		return QUIT;
 	}
+	return -1;
 }
