@@ -13,7 +13,8 @@ OBJQ = board.o main.o
 2048: $(OBJQ)
 	$(CC) -o bin/$@ $^ $(CLFAGS) $(LIBS)
 	$(RSC) $(RUSTFLAGS) src/scores.rs
+	touch SCORES
 	rm -f *.o
 
 clean:
-	rm -f bin/2048 bin/2048.exe bin/scores *.o
+	rm -f bin/2048 bin/2048.exe bin/scores SCORES *.o
