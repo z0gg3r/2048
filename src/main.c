@@ -2,24 +2,12 @@
 #include <stdlib.h>
 #include <time.h>
 #include <curses.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "board.h"
 
-#define LEFT 0
-#define RIGHT 1
-#define UP 2
-#define DOWN 3
-#define RESET 4
-#define QUIT 5
-
-#define SPACING 10
-
-static int FLAG_RESET = 0;
-static int FLAG_QUIT = 0;
-
-void draw(board_t *b, WINDOW *w);
-WINDOW *init_win();
-int remap(int ch);
-int game_loop(WINDOW *w);
+#include "main.h"
 
 int main()
 {
@@ -99,6 +87,7 @@ int game_loop(WINDOW *w)
 	}
 	clear();
 	printw("Game Over!\n Final Points: %d\n", b->points);
+	execv(scores, b->points);
 	free_board(b);
 	if (FLAG_RESET) {
 		return RESET;
@@ -139,6 +128,14 @@ void draw(board_t *b, WINDOW *w)
 
 WINDOW *init_win()
 {
+	/*
+	 * We initalise a new curses window that is 4 times the columns high
+	 * and 8 times the cells wide. We then create x and y as LINE/COL
+	 * minus the width and heigt respectivley and half those to center
+	 * the window. Then we return a pointer to this new window.
+	 *
+	 */
+
 	WINDOW *w;
 	int height = 4 * NUM_COLUMNS;
 	int width = 8 * NUM_CELLS;
@@ -157,6 +154,7 @@ int remap(int ch)
 	 * look a bit neater!
 	 * (The values for the return codes are defined under
 	 * the header files)
+	 *
 	 */
 	if (ch == KEY_LEFT || ch == 'h' || ch == 'H') {
 		return LEFT;
@@ -172,4 +170,26 @@ int remap(int ch)
 		return QUIT;
 	}
 	return -1;
+}
+
+void write_scores(board_t *b)
+{
+	/*
+	 * This functions forks and then calls scores. We use this so we can
+	 * call scores and still execute this and not be done afterwards.
+	 *
+	 */
+	pid_t pid = fork();
+
+	if (pid) {
+		static char *argv[] = { SCORES_PATH, b->points, NULL};
+		execv(SCORES_PATH, argv);
+		// If exec works, we don't actually execute the rest of the if,
+		// but if it fails we do, so we just return EXEC_FAILED.
+		exit(EXEC_FAILED);
+	} else {
+		// We wait until our dear child finishes so we can return
+		// to playing!
+		waitpid(pid, 0, 0);
+	}
 }
