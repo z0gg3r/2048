@@ -2,7 +2,7 @@ RSC=rustc
 CC=gcc
 RSFLAGS=-O2 --crate-type=dylib
 CFLAGS=-Wall
-RUSTFLAGS=-O -o bin/scores
+RUSTFLAGS=-O -o scores
 LIBS=-lncurses
 
 OBJQ = board.o main.o
@@ -11,10 +11,11 @@ OBJQ = board.o main.o
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 2048: $(OBJQ)
-	$(CC) -o bin/$@ $^ $(CLFAGS) $(LIBS)
+	$(CC) -o $@ $^ $(CLFAGS) $(LIBS)
 	$(RSC) $(RUSTFLAGS) src/scores.rs
 	touch SCORES
+	strip scores
 	rm -f *.o
 
 clean:
-	rm -f bin/2048 bin/2048.exe bin/scores SCORES *.o
+	rm -f 2048 2048.exe scores SCORES *.o
