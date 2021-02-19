@@ -199,7 +199,7 @@ void write_scores(board_t *b)
 	pid_t pid = fork();
 
 	if (pid) {
-		static char *argv[] = { SCORES_PATH, to_str(b->points), NULL};
+		/*static const */char *argv[] = { SCORES_PATH, to_str(b->points), NULL};
 		execv(SCORES_PATH, argv);
 		// If exec works, we don't actually execute the rest of the if,
 		// but if it fails we do, so we just return EXEC_FAILED.
@@ -224,10 +224,10 @@ char *to_str(int i)
 	int len = snprintf(NULL, 0, "%d", i) + 1;
 
 	// We now malloc enough space for the new cstring
-	char *buf = malloc(lenght);
+	char *buf = malloc(len);
 	
 	// Write cstring to buf
-	snprinft(buf, len, "%d", i);
+	snprintf(buf, len, "%d", i);
 
 	// And return it
 	return buf;

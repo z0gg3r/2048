@@ -13,9 +13,9 @@
 #define EXEC_FAILED 127
 
 #if USE_SCORES_IN_PATH
-	const char *SCORES_PATH = "scores";
+	#define SCORES_PATH "scores";
 #else
-	const char *SCORES_PATH = "./scores";
+	#define SCORES_PATH "./scores"
 #endif
 
 static int FLAG_RESET = 0;
