@@ -3,12 +3,8 @@ fn main()
     let mut score: usize = 0;
     let mut idx = 0;
     for argu in std::env::args() {
-        if idx == 1 {
-            score = if argu.parse().is_ok() {
-                        argu.parse().unwrap()
-                } else {
-                        0
-                };
+        if idx == 1 {    
+            score = argu.parse::<usize>().unwrap_or(0usize);
         }
         idx += 1;
     }
@@ -35,7 +31,7 @@ fn read_scores()
     let score_string = score_file.split("\n");
     let mut v: Vec<usize> = Vec::new();
     for s in score_string {
-        v.push(s.parse().unwrap());
+        v.push(s.parse().unwrap_or(0usize));
     }
     v
 }
