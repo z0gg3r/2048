@@ -199,7 +199,7 @@ void write_scores(board_t *b)
 	pid_t pid = fork();
 
 	if (pid) {
-		static char *argv[] = { SCORES_PATH, b->points, NULL};
+		static char *argv[] = { SCORES_PATH, to_str(b->points), NULL};
 		execv(SCORES_PATH, argv);
 		// If exec works, we don't actually execute the rest of the if,
 		// but if it fails we do, so we just return EXEC_FAILED.
@@ -209,4 +209,26 @@ void write_scores(board_t *b)
 		// to playing!
 		waitpid(pid, 0, 0);
 	}
+}
+
+char *to_str(int i)
+{
+	/*
+	 * This functions takes an integer and then returns its value as a
+	 * cstring.
+	 *
+	 */
+
+	// This apparently tells us the length of our number as a cstring.
+	// We add one to it, for the terminator c:
+	int len = snprintf(NULL, 0, "%d", i) + 1;
+
+	// We now malloc enough space for the new cstring
+	char *buf = malloc(lenght);
+	
+	// Write cstring to buf
+	snprinft(buf, len, "%d", i);
+
+	// And return it
+	return buf;
 }

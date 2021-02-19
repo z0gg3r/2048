@@ -26,6 +26,6 @@ WINDOW *init_win();
 int remap(int ch);
 int game_loop(WINDOW *w);
 void write_scores(board_t *b);
-
+char *to_str(int i);
 
 #endif
