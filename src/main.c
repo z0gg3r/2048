@@ -17,6 +17,7 @@ int main()
 	 * enough of the game. We then end the ncurses session and quit.
 	 *
 	 */
+	
 	initscr();
 	cbreak();
 	noecho();
@@ -25,11 +26,14 @@ int main()
 	time_t t;
 	srand((unsigned) time(&t));
 	int return_code = RESET;
+	
 	while (return_code == RESET) {
 		return_code = game_loop(w);
+	
 	}
 	endwin();
 	delwin(w);
+	
 	return 0;
 }
 
@@ -50,11 +54,13 @@ int game_loop(WINDOW *w)
 	 * what the user entered.
 	 *
 	 */
+	
 	FLAG_RESET = 0;
 	clear();
 	board_t *b = init();
 	int stop = game_over(b);
 	int ch;
+	
 	spawn(b);
 	while (!stop) {
 		spawn(b);
@@ -87,21 +93,27 @@ int game_loop(WINDOW *w)
 	}
 	clear();
 	printw("Game Over!\n Final Points: %d\n", b->points);
-	execv(scores, b->points);
+	write_scores(b);
+	
 	free_board(b);
+	
 	if (FLAG_RESET) {
 		return RESET;
 	}
+	
 	if (FLAG_QUIT) {
 		return QUIT;
 	}
+	
 	printw("(Press r to start a new game and q to quit.)");
 	ch = getch();
 	ch = remap(ch);
+	
 	while (ch != RESET && ch != QUIT) {
 		ch = getch();
 		ch = remap(ch);
 	}
+	
 	return ch;
 }
 
@@ -115,6 +127,7 @@ void draw(board_t *b, WINDOW *w)
 	 * of a previous cell is greater than one hundred.
 	 *
 	 */
+	
 	printw("Points: %d \n", b->points);
 	for (int i = 0; i < NUM_COLUMNS; ++i) {
 		for (int j = 0; j < NUM_CELLS; ++j) {
@@ -154,8 +167,10 @@ int remap(int ch)
 	 * look a bit neater!
 	 * (The values for the return codes are defined under
 	 * the header files)
-	 *
+	 * NOTE: This is definetley not the most elegant solution for
+	 * this function, but it works!
 	 */
+	
 	if (ch == KEY_LEFT || ch == 'h' || ch == 'H') {
 		return LEFT;
 	} else if (ch == KEY_RIGHT || ch == 'l' || ch == 'L') {
@@ -169,6 +184,7 @@ int remap(int ch)
 	} else if (ch == 'q' || ch == 'Q') {
 		return QUIT;
 	}
+
 	return -1;
 }
 
@@ -179,6 +195,7 @@ void write_scores(board_t *b)
 	 * call scores and still execute this and not be done afterwards.
 	 *
 	 */
+
 	pid_t pid = fork();
 
 	if (pid) {
