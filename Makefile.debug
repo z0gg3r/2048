@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-g
+CFLAGS=-g -Wall
 LIBS=-lncurses
 
 OBJQ = board.o main.o
@@ -8,7 +8,7 @@ OBJQ = board.o main.o
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 2048: $(OBJQ)
-	$(CC) -o bin/$@ $^ $(CLFAGS) $(LIBS)
+	$(CC) -o $@ $^ $(CLFAGS) $(LIBS)
 
 clean:
-	rm -f bin/2048 bin/2048.exe *.o
+	rm -f 2048 2048.exe *.o

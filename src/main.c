@@ -197,7 +197,8 @@ void write_scores(board_t *b)
 	 *
 	 */
 
-	pid_t pid = fork();
+	pid_t pid = malloc(sizeof(pid_t));
+	pid = fork();
 
 	if (pid) {
 		char *argv[] = { SCORES_SCRIPT, to_str(b->points), NULL};
