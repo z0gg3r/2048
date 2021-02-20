@@ -191,16 +191,17 @@ int remap(int ch)
 void write_scores(board_t *b)
 {
 	/*
-	 * This functions forks and then calls scores. We use this so we can
-	 * call scores and still execute this and not be done afterwards.
+	 * This functions forks and then calls the scores shell script. We use
+	 * this so we can call scores and still execute this and not be done
+	 * afterwards.
 	 *
 	 */
 
 	pid_t pid = fork();
 
 	if (pid) {
-		/*static const */char *argv[] = { SCORES_PATH, to_str(b->points), NULL};
-		execv(SCORES_PATH, argv);
+		char *argv[] = { SCORES_SCRIPT, to_str(b->points), NULL};
+		execv(SCORES_SCRIPT, argv);
 		// If exec works, we don't actually execute the rest of the if,
 		// but if it fails we do, so we just return EXEC_FAILED.
 		exit(EXEC_FAILED);
