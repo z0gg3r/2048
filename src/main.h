@@ -12,11 +12,7 @@
 
 #define EXEC_FAILED 127
 
-#if USE_SCORES_IN_PATH
-	#define SCORES_PATH "scores";
-#else
-	#define SCORES_PATH "./scores"
-#endif
+#define SCORES_SCRIPT "scores.sh"
 
 static int FLAG_RESET = 0;
 static int FLAG_QUIT = 0;
