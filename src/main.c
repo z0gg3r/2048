@@ -5,8 +5,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include "board.h"
 
+#include "board.h"
 #include "main.h"
 
 int main()
@@ -23,14 +23,15 @@ int main()
 	noecho();
 	keypad(stdscr, 1);
 	WINDOW *w = init_win();
+	
 	time_t t;
 	srand((unsigned) time(&t));
 	int return_code = RESET;
 	
 	while (return_code == RESET) {
 		return_code = game_loop(w);
-	
 	}
+	
 	endwin();
 	delwin(w);
 	
@@ -91,9 +92,9 @@ int game_loop(WINDOW *w)
 		}
 		stop = FLAG_QUIT || FLAG_RESET || game_over(b);
 	}
+	
 	clear();
 	printw("Game Over!\n Final Points: %d\n", b->points);
-	write_scores(b);
 	
 	free_board(b);
 	
@@ -188,31 +189,7 @@ int remap(int ch)
 	return -1;
 }
 
-void write_scores(board_t *b)
-{
-	/*
-	 * This functions forks and then calls the scores shell script. We use
-	 * this so we can call scores and still execute this and not be done
-	 * afterwards.
-	 *
-	 */
-
-	pid_t pid = malloc(sizeof(pid_t));
-	pid = fork();
-
-	if (pid) {
-		char *argv[] = { SCORES_SCRIPT, to_str(b->points), NULL};
-		execv(SCORES_SCRIPT, argv);
-		// If exec works, we don't actually execute the rest of the if,
-		// but if it fails we do, so we just return EXEC_FAILED.
-		exit(EXEC_FAILED);
-	} else {
-		// We wait until our dear child finishes so we can return
-		// to playing!
-		waitpid(pid, 0, 0);
-	}
-}
-
+// NOTE: This function is currently unused and is kept for refrence purposes!
 char *to_str(int i)
 {
 	/*
