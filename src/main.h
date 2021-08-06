@@ -1,6 +1,9 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <ncurses.h>
+#include "board.h"
+
 #define LEFT 0
 #define RIGHT 1
 #define UP 2
