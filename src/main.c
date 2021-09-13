@@ -66,8 +66,13 @@ int game_loop(WINDOW *w)
 	while (!stop) {
 		spawn(b);
 		draw(b, w);
-		ch = getch();
-		ch = remap(ch);
+		
+		// Enter loop at least once and stay in loop
+		// if ch is -1 (or an invalid charachter)
+		do {
+			ch = getch();
+			ch = remap(ch);
+		} while (ch == -1);
 		werase(stdscr);
 		werase(w);
 		switch (ch) {
@@ -89,6 +94,7 @@ int game_loop(WINDOW *w)
 			case QUIT:
 				FLAG_QUIT = 1;
 				break;
+
 		}
 		stop = FLAG_QUIT || FLAG_RESET || game_over(b);
 	}
@@ -151,8 +157,10 @@ WINDOW *init_win()
 	 */
 
 	WINDOW *w;
+	// from board.h
 	int height = 4 * NUM_COLUMNS;
 	int width = 8 * NUM_CELLS;
+	// from curses.h
 	int x = (LINES - height) / 2;
 	int y = (COLS - width) / 2;
 	w = newwin(height, width, x, y);
