@@ -79,7 +79,7 @@ void mv_left(board_t *b)
 	 * Since all move functions work based upon this logic, only the difference
 	 * in the mathy bit are explained.
 	 * 
-	 * Mathy bit:
+	 * Maths bit:
 	 * limit 	--> How many cells are after the other cell we are currently looking
 	 * 		    at. This is calculated as the number of cells minus the original
 	 * 		    other cell position.
@@ -133,7 +133,7 @@ void mv_right(board_t *b)
 	/*
 	 * For the logic see `mv_left`.
 	 *
-	 * Mathy bit:
+	 * Maths bit:
 	 * limit	--> Same as mv_left, but limit is always equal to j.
 	 * idx		--> Same as mv_left.
 	 * cell		--> Same as left.
@@ -189,7 +189,7 @@ void mv_up(board_t *b)
 	/*
 	 * For the logic see `mv_left`
 	 *
-	 * Mathy bit:
+	 * Maths bit:
 	 * limit 	--> Same as mv_left
 	 * idx 		--> Same as mv_left
 	 * cell 	--> Same as mv_left, only named `col`
@@ -243,7 +243,7 @@ void mv_down(board_t *b)
 	/*
 	 * For the logic see `mv_left`
 	 *
-	 * Mathy bit:
+	 * Maths bit:
 	 * limit --> Same as mv_right
 	 * idx --> Same as mv_right
 	 * cell --> same as mv_right, only called `col`
