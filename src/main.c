@@ -78,24 +78,24 @@ int game_loop(WINDOW *w)
 		werase(stdscr);
 		werase(w);
 		switch (ch) {
-			case LEFT:
-				mv_left(b);
-				break;
-			case RIGHT:
-				mv_right(b);
-				break;
-			case UP:
-				mv_up(b);
-				break;
-			case DOWN:
-				mv_down(b);
-				break;
-			case RESET:
-				FLAG_RESET = 1;
-				break;
-			case QUIT:
-				FLAG_QUIT = 1;
-				break;
+		case LEFT:
+			mv_left(b);
+			break;
+		case RIGHT:
+			mv_right(b);
+			break;
+		case UP:
+			mv_up(b);
+			break;
+		case DOWN:
+			mv_down(b);
+			break;
+		case RESET:
+			FLAG_RESET = 1;
+			break;
+		case QUIT:
+			FLAG_QUIT = 1;
+			break;
 
 		}
 		stop = FLAG_QUIT || FLAG_RESET || game_over(b);
