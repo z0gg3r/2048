@@ -180,28 +180,36 @@ WINDOW *init_win()
  * and returns a quick response code for the appropritate
  * action so that the code that handles the action can
  * look a bit neater!
- * (The values for the return codes are defined under
- * the header files)
- * NOTE: This is definetley not the most elegant solution for
- * this function, but it works!
+ * (The values for the return codes are defined in main.h)
  */
 int remap(int ch)
 {
-	if (ch == KEY_LEFT || ch == 'h' || ch == 'H') {
+	switch (ch) {
+	case KEY_LEFT:
+	case 'h':
+	case 'H':
 		return LEFT;
-	} else if (ch == KEY_RIGHT || ch == 'l' || ch == 'L') {
+	case KEY_RIGHT:
+	case 'l':
+	case 'L':
 		return RIGHT;
-	} else if (ch == KEY_UP || ch == 'k' || ch == 'K') {
+	case KEY_UP:
+	case 'k':
+	case 'K':
 		return UP;
-	} else if (ch == KEY_DOWN || ch == 'j' || ch == 'J') {
+	case KEY_DOWN:
+	case 'k':
+	case 'K':
 		return DOWN;
-	} else if (ch == 'r' || ch == 'R') {
+	case 'r':
+	case 'R':
 		return RESET;
-	} else if (ch == 'q' || ch == 'Q') {
+	case 'q':
+	case 'Q':
 		return QUIT;
+	default:
+		return -1;
 	}
-
-	return -1;
 }
 
 /*
@@ -216,20 +224,22 @@ int remap(int ch)
  */
 int write_score(int score)
 {
+	int result = 0;
 	char *s = to_str(score);
 	char *argv[] = { "/bin/sh", SCORES_SCRIPT, s, NULL };
 	pid_t pid = fork();
 
 	if (!pid) {
 		execv("/bin/sh", argv);
-		free(s);
-		return EXECV_FAILURE;
+		result = EXECV_FAILURE;
+		goto execv_failure;
 	} else {
 		waitpid(pid, 0, 0);
 	}
 
+execv_failure:
 	free(s);
-	return 0;
+	return result;
 }
 
 /*
