@@ -226,11 +226,11 @@ int write_score(int score)
 {
 	int result = 0;
 	char *s = to_str(score);
-	char *argv[] = { "/bin/sh", SCORES_SCRIPT, s, NULL };
+	char *argv[] = { "sh", SCORES_SCRIPT, s, NULL };
 	pid_t pid = fork();
 
 	if (!pid) {
-		execv("/bin/sh", argv);
+		execvp("sh", argv);
 		result = EXECV_FAILURE;
 		goto execv_failure;
 	} else {
