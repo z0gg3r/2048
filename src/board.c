@@ -251,7 +251,7 @@ void spawn(board_t *b)
 	// The original had a 10% chance
 	// for the new tile to be a four,
 	// instead of a 2, so we try to
-0	// mimick that here.
+	// mimick that here.
 	int four = (rand() % 100);
 	// Here we simply set the variables
 	// in the position, if that's already
