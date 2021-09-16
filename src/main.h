@@ -13,9 +13,9 @@
 
 #define SPACING 10
 
-#define EXEC_FAILED 127
+#define EXECV_FAILURE 127
 
-#define SCORES_SCRIPT "scores.sh"
+#define SCORES_SCRIPT "/usr/local/share/2048_scores.sh"
 
 static int FLAG_RESET = 0;
 static int FLAG_QUIT = 0;
@@ -24,7 +24,7 @@ void draw(board_t *b, WINDOW *w);
 WINDOW *init_win();
 int remap(int ch);
 int game_loop(WINDOW *w);
-void write_scores(board_t *b);
+int write_score(int score);
 char *to_str(int i);
 
 #endif

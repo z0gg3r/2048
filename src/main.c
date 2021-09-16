@@ -101,7 +101,12 @@ int game_loop(WINDOW *w)
 	
 	clear();
 	printw("Game Over!\n Final Points: %d\n", b->points);
-	
+	int score = write_score(b->points);
+
+	if (score == EXECV_FAILURE) {
+		printw("Oops, could not add score to scores file!");
+	}
+
 	free_board(b);
 	
 	if (FLAG_RESET) {
@@ -197,7 +202,24 @@ int remap(int ch)
 	return -1;
 }
 
-// NOTE: This function is currently unused and is kept for refrence purposes!
+int write_score(int score)
+{
+	char *s = to_str(score);
+	char *argv[] = { "/bin/sh", SCORES_SCRIPT, s, NULL };
+	pid_t pid = fork();
+
+	if (!pid) {
+		execv("/bin/sh", argv);
+		free(s);
+		return EXECV_FAILURE;
+	} else {
+		waitpid(pid, 0, 0);
+	}
+
+	free(s);
+	return 0;
+}
+
 char *to_str(int i)
 {
 	/*
