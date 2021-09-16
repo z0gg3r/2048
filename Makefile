@@ -1,6 +1,5 @@
 CC=gcc
 CFLAGS=-Wall
-RUSTFLAGS=-O -o scores
 LIBS=-lncurses
 PREFIX=/usr/local/bin
 SCORES=/usr/local/share/2048_scores.sh
