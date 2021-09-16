@@ -18,14 +18,18 @@ int main()
 	 *
 	 */
 	
+	// Setup ncurses
 	initscr();
 	cbreak();
 	noecho();
 	keypad(stdscr, 1);
 	WINDOW *w = init_win();
 	
+	// Setup rand
 	time_t t;
 	srand((unsigned) time(&t));
+
+
 	int return_code = RESET;
 	
 	while (return_code == RESET) {
@@ -101,10 +105,15 @@ int game_loop(WINDOW *w)
 	
 	clear();
 	printw("Game Over!\n Final Points: %d\n", b->points);
-	int score = write_score(b->points);
+	
+	// Don't write the scores if the user ended the round by quitting
+	// or resetting
+	if (!FLAG_QUIT && !FLAG_RESET) {
+		int score = write_score(b->points);
 
-	if (score == EXECV_FAILURE) {
-		printw("Oops, could not add score to scores file!");
+		if (score == EXECV_FAILURE) {
+			printw("Oops, could not add score to scores file!");
+		}
 	}
 
 	free_board(b);
@@ -204,6 +213,18 @@ int remap(int ch)
 
 int write_score(int score)
 {
+	/*
+	 * This function is called once the game_over is reached and the final
+	 * score of the round is known. It converts the given score to a char *
+	 * and writes it to the scores file. First it forks itself to then
+	 * execute /bin/sh SCORES_SCRIPT score, where SCORES_SCRIPT is the
+	 * location of scores.sh on the system and score is the char * that the
+	 * argument was converted to.
+	 *
+	 * It returns 0 on success and EXECV_FAILURE (or 127) on failure.
+	 *
+	 */
+
 	char *s = to_str(score);
 	char *argv[] = { "/bin/sh", SCORES_SCRIPT, s, NULL };
 	pid_t pid = fork();
