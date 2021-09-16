@@ -337,6 +337,6 @@ int game_over(board_t *b)
 				++n;
 		}
 	}
-	return n == 16;
+	return n == (NUM_COLUMNS * NUM_CELLS);
 }
 
