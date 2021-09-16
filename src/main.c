@@ -198,8 +198,8 @@ int remap(int ch)
 	case 'K':
 		return UP;
 	case KEY_DOWN:
-	case 'k':
-	case 'K':
+	case 'j':
+	case 'J':
 		return DOWN;
 	case 'r':
 	case 'R':
