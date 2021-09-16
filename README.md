@@ -1,7 +1,7 @@
 # 2048
 An implementation of the well known 2048 game in C.
 
-Writing scores to a file is currently still WIP. Expect it to be quite broken.
+Score writing is currently in 'beta', Bugs are to be expected.
 
 Dependencies:
 - ncurses

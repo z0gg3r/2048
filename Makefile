@@ -1,7 +1,8 @@
 CC=gcc
 CFLAGS=-Wall
-RUSTFLAGS=-O -o scores
 LIBS=-lncurses
+PREFIX=/usr/local/bin
+SCORES=/usr/local/share/2048_scores.sh
 
 OBJQ = board.o main.o
 
@@ -14,3 +15,7 @@ OBJQ = board.o main.o
 
 clean:
 	rm -f 2048 2048.exe SCORES *.o
+
+install:
+	cp 2048 $(PREFIX)
+	cp scores.sh $(SCORES)
