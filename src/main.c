@@ -80,12 +80,12 @@ int game_loop(WINDOW *w)
 	FLAG_RESET = 0;
 	clear();
 	board_t *b = init();
-	int stop = game_over(b);
 	int ch;
 	
-	spawn(b);
+	int stop = spawn(b, 0);
 	while (!stop) {
-		spawn(b);
+		if (!spawn(b, 0))
+			break;
 		draw(b, w);
 		
 		// Enter loop at least once and stay in loop

@@ -256,13 +256,16 @@ void mv_down(board_t *b)
 }
 
 /*
- * Here we spawn new tiles on
- * the board. They can be either
- * 2 or 4 in value and only one
- * is spawned at a time.
+ * Here we spawn new tiles on the board. They can be either
+ * 2 or 4 in value and only one is spawned at a time. If we
+ * have to call spawn again, then we increase the call count
+ * and we break once that reaches CALL_LIMIT (i.e. game_over)
+ * to avoid softlocking.
  */
-void spawn(board_t *b)
+int spawn(board_t *b, int callc)
 {
+	if (callc == CALL_LIMIT)
+		return 0;
 	// Generate a random position for
 	// the new tile
 	int col = rand() % NUM_COLUMNS;
@@ -281,8 +284,10 @@ void spawn(board_t *b)
 	} else if (!b->cols[col]->cells[cell]) {
 		b->cols[col]->cells[cell] = 2;
 	} else {
-		spawn(b);
+		return spawn(b, ++callc);
 	}
+
+	return 1;
 }
 
 /*
@@ -300,4 +305,3 @@ int game_over(board_t *b)
 	}
 	return n == (NUM_COLUMNS * NUM_CELLS);
 }
-

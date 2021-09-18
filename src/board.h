@@ -22,6 +22,7 @@
 
 #define NUM_COLUMNS 4
 #define NUM_CELLS 4
+#define CALL_LIMIT NUM_CELLS * NUM_COLUMNS
 
 typedef struct column_t {
 	int cells[NUM_CELLS];
@@ -40,7 +41,7 @@ void mv_right(board_t *b);
 void mv_up(board_t *b);
 void mv_down(board_t *b);
 
-void spawn(board_t *b);
+int spawn(board_t *b, int callc);
 int game_over(board_t *b);
 
 #endif
