@@ -88,8 +88,6 @@ int game_loop(WINDOW *w)
 			break;
 		draw(b, w);
 		
-		// Enter loop at least once and stay in loop
-		// if ch is -1 (or an invalid charachter)
 		do {
 			ch = getch();
 			ch = remap(ch);
@@ -126,9 +124,7 @@ int game_loop(WINDOW *w)
 	// Don't write the scores if the user ended the round by quitting
 	// or resetting
 	if (!FLAG_QUIT && !FLAG_RESET) {
-		int score = write_score(b->points);
-
-		if (score == EXECV_FAILURE) {
+		if (write_score(b->points) == EXECV_FAILURE) {
 			printw("Oops, could not add score to scores file!");
 		}
 	}
