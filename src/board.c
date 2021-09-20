@@ -265,7 +265,7 @@ void mv_down(board_t *b)
 int spawn(board_t *b, int callc)
 {
 	if (callc == CALL_LIMIT)
-		return 0;
+		return 1;
 	// Generate a random position for
 	// the new tile
 	int col = rand() % NUM_COLUMNS;
@@ -287,7 +287,7 @@ int spawn(board_t *b, int callc)
 		return spawn(b, ++callc);
 	}
 
-	return 1;
+	return 0;
 }
 
 /*

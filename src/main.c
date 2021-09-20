@@ -84,7 +84,7 @@ int game_loop(WINDOW *w)
 	
 	int stop = spawn(b, 0);
 	while (!stop) {
-		if (!spawn(b, 0))
+		if (spawn(b, 0))
 			break;
 		draw(b, w);
 		
