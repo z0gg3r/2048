@@ -7,15 +7,20 @@ SCORES=/usr/local/share/2048_scores.sh
 OBJQ = board.o main.o
 
 %.o: src/%.c
-	$(CC) -c -o $@ $< $(CFLAGS)
+	@echo CC $^
+	@$(CC) -c -o $@ $< $(CFLAGS)
 
 2048: $(OBJQ)
-	$(CC) -o $@ $^ $(CLFAGS) $(LIBS)
-	rm -f *.o
+	@echo CC $^
+	@$(CC) -o $@ $^ $(CLFAGS) $(LIBS)
+	@rm -f *.o
 
 clean:
-	rm -f 2048 2048.exe SCORES *.o
+	@echo Cleaning dir...
+	@rm -f 2048 2048.exe SCORES *.o
 
 install:
-	cp 2048 $(PREFIX)
-	cp scores.sh $(SCORES)
+	@echo INSTALL 2048
+	@cp 2048 $(PREFIX)
+	@echo INSTALL scores.sh
+	@cp scores.sh $(SCORES)
