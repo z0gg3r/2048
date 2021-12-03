@@ -279,7 +279,7 @@ int spawn(board_t *b, int callc)
 	// in the position, if that's already
 	// set then we just call spawn again
 	
-	if (four <= 10 && !b->cols[col]->cells[cell]) {
+	if (four < 10 && !b->cols[col]->cells[cell]) {
 		b->cols[col]->cells[cell] = 4;
 	} else if (!b->cols[col]->cells[cell]) {
 		b->cols[col]->cells[cell] = 2;
