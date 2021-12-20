@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall
+CFLAGS=-Wall -Wextra -std=c99
 LIBS=-lncurses
 PREFIX=/usr/local/bin
 SCORES=/usr/local/share/2048_scores.sh
