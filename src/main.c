@@ -160,6 +160,7 @@ int game_loop(WINDOW *w)
  */
 void draw(board_t *b, WINDOW *w)
 {
+	printw("%s v%s\n", PROGNAME, VERSION);
 	printw("Points: %d \n", b->points);
 	for (int i = 0; i < NUM_COLUMNS; ++i) {
 		for (int j = 0; j < NUM_CELLS; ++j) {

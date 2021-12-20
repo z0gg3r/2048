@@ -23,6 +23,9 @@
 #include <ncurses.h>
 #include "board.h"
 
+#define PROGNAME "2048"
+#define VERSION "0.2.0"
+
 #define LEFT 0
 #define RIGHT 1
 #define UP 2
