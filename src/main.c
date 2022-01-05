@@ -164,9 +164,9 @@ void draw(board_t *b, WINDOW *w)
 	printw("Points: %d \n", b->points);
 	for (int i = 0; i < NUM_COLUMNS; ++i) {
 		for (int j = 0; j < NUM_CELLS; ++j) {
-			wprintw(w, "%*d", 8, b->cols[i]->cells[j]);
+			wprintw(w, "%*d", 16, b->cols[i]->cells[j]);
 		}
-		wprintw(w, "\n\n\n\n");
+		wprintw(w, "\n\n\n\n\n\n\n\n");
 	}
 	refresh();
 	wrefresh(w);
@@ -182,9 +182,9 @@ WINDOW *init_win()
 {
 	WINDOW *w;
 	// from board.h
-	int height = 4 * NUM_COLUMNS;
-	int width = 8 * NUM_CELLS;
-	// from curses.h
+	int height = 8 * NUM_COLUMNS;
+	int width = 16 * NUM_CELLS;
+	// from main.h
 	int x = (LINES - height) / 2;
 	int y = (COLS - width) / 2;
 	w = newwin(height, width, x, y);
