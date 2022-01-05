@@ -24,7 +24,7 @@
 #include "board.h"
 
 #define PROGNAME "2048"
-#define VERSION "0.2.0"
+#define VERSION "0.2.1"
 
 #define LEFT 0
 #define RIGHT 1
