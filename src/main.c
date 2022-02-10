@@ -264,14 +264,15 @@ execv_failure:
  */
 char *to_str(int i)
 {
-	// This apparently tells us the length of our number as a cstring.
-	// We add one to it, for the terminator c:
+	// If the provided buffer does not have enough space for the
+	// formatted string, then the size that would have been needed
+	// without \0 is returned.
 	int len = snprintf(NULL, 0, "%d", i) + 1;
 
-	// We now malloc enough space for the new cstring
-	char *buf = malloc(len);
+	// We now malloc enough space for the new string
+	char *buf = malloc(sizeof(char) * len);
 	
-	// Write cstring to buf
+	// Write string to buf
 	snprintf(buf, len, "%d", i);
 
 	// And return it
