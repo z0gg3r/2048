@@ -1,5 +1,9 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -std=c99
+CFLAGS=-Wall -Wextra -std=c99 \
+       -pipe -march=native -O2 \
+       -D_FORTIFY_SOURCE=2 \
+       -fstack-protector-strong \
+       -fcf-protection
 LIBS=-lncurses
 PREFIX=/usr/local/bin
 SCORES=/usr/local/share/2048_scores.sh
