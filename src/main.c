@@ -246,7 +246,7 @@ int write_score(int score)
 	pid_t pid = fork();
 
 	if (!pid) {
-		execvp("sh", argv);
+		execv("/bin/sh", argv);
 		result = EXECV_FAILURE;
 		goto execv_failure;
 	} else {
