@@ -37,6 +37,7 @@ board_t *init()
 		}
 		b->cols[i] = c;
 	}
+
 	return b;
 }
 
@@ -51,6 +52,7 @@ void free_board(board_t *b)
 	for (int i = 0; i < NUM_COLUMNS; ++i) {
 		free(b->cols[i]);
 	}
+
 	free(b);
 }
 
@@ -303,5 +305,6 @@ int game_over(board_t *b)
 				++n;
 		}
 	}
+
 	return n == (NUM_COLUMNS * NUM_CELLS);
 }
