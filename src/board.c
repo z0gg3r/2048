@@ -70,9 +70,9 @@ void mv_left(board_t *b)
 			limit = NUM_CELLS - (1 + j);
 			while (idx < limit) {
 				cell = j + 1 + idx;
-				if (b->cols[i]->cells[j] 
-					&& b->cols[i]->cells[cell] 
-					&& b->cols[i]->cells[cell] != b->cols[i]->cells[j])
+				if (b->cols[i]->cells[j]
+						&& b->cols[i]->cells[cell]
+						&& b->cols[i]->cells[cell] != b->cols[i]->cells[j])
 				{
 					// There might be merge candidates down the line but
 					// they are blocked and thus we break.
@@ -94,7 +94,7 @@ void mv_left(board_t *b)
 					b->cols[i]->cells[j] *= 2;
 					b->cols[i]->cells[cell] = 0;
 					b->points += b->cols[i]->cells[j];
-					break;	
+					break;
 				} else {
 					// Not really needed, but will stay as a kind of
 					// catch all guard against undefined shit.
@@ -121,9 +121,9 @@ void mv_right(board_t *b)
 			limit = j;
 			while (idx < limit) {
 				cell = j - 1 - idx;
-				if (b->cols[i]->cells[j] 
-					&& b->cols[i]->cells[cell] 
-					&& b->cols[i]->cells[cell] != b->cols[i]->cells[j])
+				if (b->cols[i]->cells[j]
+						&& b->cols[i]->cells[cell]
+						&& b->cols[i]->cells[cell] != b->cols[i]->cells[j])
 				{
 					// There might be merge candidates down the line, but
 					// they are blocked, thus we break.
@@ -172,9 +172,9 @@ void mv_up(board_t *b)
 			limit = NUM_COLUMNS - (1 + j);
 			while (idx < limit) {
 				col = j + 1 + idx;
-				if (b->cols[j]->cells[i] 
-					&& b->cols[col]->cells[i] 
-					&& b->cols[col]->cells[i] != b->cols[j]->cells[i])
+				if (b->cols[j]->cells[i]
+						&& b->cols[col]->cells[i]
+						&& b->cols[col]->cells[i] != b->cols[j]->cells[i])
 				{
 					// There might be merge candidates down the line,
 					// but they are blocked and thus we break.
@@ -222,8 +222,8 @@ void mv_down(board_t *b)
 			while (idx < limit) {
 				col = j - 1 - idx;
 				if (b->cols[j]->cells[i]
-					&& b->cols[col]->cells[i] 
-					&& b->cols[col]->cells[i] != b->cols[j]->cells[i]) 
+						&& b->cols[col]->cells[i]
+						&& b->cols[col]->cells[i] != b->cols[j]->cells[i])
 				{
 					// There might be merge candidates down
 					// the line, but they are blocked, thus
@@ -240,7 +240,7 @@ void mv_down(board_t *b)
 					// down the line.
 					b->cols[j]->cells[i] = b->cols[col]->cells[i];
 					b->cols[col]->cells[i] = 0;
-					} else if (b->cols[col]->cells[i] == b->cols[j]->cells[i]) {
+				} else if (b->cols[col]->cells[i] == b->cols[j]->cells[i]) {
 					// Current cell and the next non-zero oen
 					// match, so merge and break.
 					b->cols[j]->cells[i] *= 2;
@@ -280,7 +280,7 @@ int spawn(board_t *b, int callc)
 	// Here we simply set the variables
 	// in the position, if that's already
 	// set then we just call spawn again
-	
+
 	if (four < 10 && !b->cols[col]->cells[cell]) {
 		b->cols[col]->cells[cell] = 4;
 	} else if (!b->cols[col]->cells[cell]) {
