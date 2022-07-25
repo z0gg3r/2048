@@ -43,21 +43,21 @@ int main()
 	noecho();
 	keypad(stdscr, 1);
 	WINDOW *w = init_win();
-	
+
 	// Setup rand
 	time_t t;
 	srand((unsigned) time(&t));
 
 
 	int return_code = RESET;
-	
+
 	while (return_code == RESET) {
 		return_code = game_loop(w);
 	}
-	
+
 	endwin();
 	delwin(w);
-	
+
 	return 0;
 }
 
@@ -81,13 +81,13 @@ int game_loop(WINDOW *w)
 	clear();
 	board_t *b = init();
 	int ch;
-	
+
 	int stop = spawn(b, 0);
 	while (!stop) {
 		if (spawn(b, 0))
 			break;
 		draw(b, w);
-		
+
 		do {
 			ch = getch();
 			ch = remap(ch);
@@ -117,10 +117,10 @@ int game_loop(WINDOW *w)
 		}
 		stop = FLAG_QUIT || FLAG_RESET || game_over(b);
 	}
-	
+
 	clear();
 	printw("Game Over!\n Final Points: %d\n", b->points);
-	
+
 	// Don't write the scores if the user ended the round by quitting
 	// or resetting
 	if (!FLAG_QUIT && !FLAG_RESET) {
@@ -130,24 +130,24 @@ int game_loop(WINDOW *w)
 	}
 
 	free_board(b);
-	
+
 	if (FLAG_RESET) {
 		return RESET;
 	}
-	
+
 	if (FLAG_QUIT) {
 		return QUIT;
 	}
-	
+
 	printw("(Press r to start a new game and q to quit.)");
 	ch = getch();
 	ch = remap(ch);
-	
+
 	while (ch != RESET && ch != QUIT) {
 		ch = getch();
 		ch = remap(ch);
 	}
-	
+
 	return ch;
 }
 
@@ -271,7 +271,7 @@ char *to_str(int i)
 
 	// We now malloc enough space for the new string
 	char *buf = malloc(sizeof(char) * len);
-	
+
 	// Write string to buf
 	snprintf(buf, len, "%d", i);
 
