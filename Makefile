@@ -4,7 +4,7 @@ CFLAGS=-Wall -Wextra -std=c99 \
        -D_FORTIFY_SOURCE=2 \
        -fstack-protector-strong \
        -fcf-protection
-LIBS=-lncurses
+LIBS=-lncurses -ltinfo
 PREFIX=/usr/local/bin
 SCORES=/usr/local/share/2048_scores.sh
 
