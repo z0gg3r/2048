@@ -18,6 +18,7 @@
 
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "board.h"
 
 /*
@@ -28,13 +29,27 @@
 
 board_t *init()
 {
-	board_t *b = malloc(sizeof(board_t));
+	board_t *b = calloc(1, sizeof(board_t));
+
+	if (!b) {
+		perror("2048: board_t calloc");
+		return NULL;
+	}
+
 	b->points = 0;
 	for (int i = 0; i < NUM_COLUMNS; ++i) {
-		column_t *c = malloc(sizeof(column_t));
+		column_t *c = calloc(1, sizeof(column_t));
+
+		if (!c) {
+			perror("2048: column_t calloc");
+			free(b);
+			return NULL;
+		}
+
 		for (int j = 0; j < NUM_CELLS; ++j) {
 			c->cells[j] = 0;
 		}
+
 		b->cols[i] = c;
 	}
 
