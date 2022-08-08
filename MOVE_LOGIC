@@ -1,5 +1,5 @@
 For every cell in every column we look at the cell (`current cell`) and
-a differenct cell (`other cell`) and perform some condition checks to see
+a different cell (`other cell`) and perform some condition checks to see
 how we should behave. They are listed in the order they are performed.
 	0. Are neither the current nor the other cell empty and are they
 	   also both not the same?
@@ -16,9 +16,9 @@ Now we can not react to all conditions in the same manner (if we could
 we would not have to check for anything and just do that), so here is
 how we respond (ordered according to the numbers up there):
 	0. We move our current cell one up. Why? Because we have a 
-	   current cell that is filled with a value and a diffrent cell
+	   current cell that is filled with a value and a different cell
 	   that is also filled with a value, but those aren't the same,
-	   so even if there is a cell with a value somwhere behind that
+	   so even if there is a cell with a value somewhere behind that
 	   other cell, we can't reach it because the other cell blocks it.
 	1. Welp,  can't do anything, but move the other cell one up.
 	2. Yes! That is good. We can now move the value of the other cell
