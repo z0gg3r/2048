@@ -314,12 +314,20 @@ int spawn(board_t *b, int callc)
 int game_over(board_t *b)
 {
 	int n = 0;
-	for (int i = 0; i < NUM_COLUMNS; ++i) {
-		for (int j = 0; j < NUM_CELLS; ++j) {
-			if (b->cols[i]->cells[j])
-				++n;
+	for (int i = 0; i < NUM_COLUMNS; ++i)
+		n += _game_over(b->cols[i]->cells);
+
+	return n == (NUM_COLUMNS * NUM_CELLS);
+}
+
+int _game_over(int *cells)
+{
+	int n = 0;
+	for (int i = 0; i < NUM_CELLS; ++i) {
+		if (cells[i]) {
+			++n;
 		}
 	}
 
-	return n == (NUM_COLUMNS * NUM_CELLS);
+	return n;
 }

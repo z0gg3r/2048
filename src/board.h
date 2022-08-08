@@ -43,5 +43,6 @@ void mv_down(board_t *b);
 
 int spawn(board_t *b, int callc);
 int game_over(board_t *b);
+int _game_over(int *cells);
 
 #endif
