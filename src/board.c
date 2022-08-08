@@ -320,6 +320,10 @@ int game_over(board_t *b)
 	return n == (NUM_COLUMNS * NUM_CELLS);
 }
 
+
+/*
+ * Helper to game_over
+ */
 int _game_over(int *cells)
 {
 	int n = 0;
