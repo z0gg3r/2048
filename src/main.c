@@ -15,8 +15,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -28,7 +26,6 @@
 #include "board.h"
 #include "main.h"
 
-
 /*
  * We initalize the setup of ncurses, seed srand and then enter the
  * game loop and loop until the users tells us that they have had
@@ -36,7 +33,6 @@
  */
 int main()
 {
-
 	// Setup ncurses
 	initscr();
 	cbreak();
@@ -46,8 +42,7 @@ int main()
 
 	// Setup rand
 	time_t t;
-	srand((unsigned) time(&t));
-
+	srand((unsigned)time(&t));
 
 	int return_code = RESET;
 
@@ -113,7 +108,6 @@ int game_loop(WINDOW *w)
 		case QUIT:
 			FLAG_QUIT = 1;
 			break;
-
 		}
 		stop = FLAG_QUIT || FLAG_RESET || game_over(b);
 	}

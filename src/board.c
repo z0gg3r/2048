@@ -15,8 +15,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "board.h"
@@ -43,7 +41,7 @@ board_t *init()
 
 		if (!c) {
 			perror("2048: column_t calloc");
-			
+
 			if (!i) {
 				free(b);
 				return NULL;
@@ -95,29 +93,34 @@ void mv_left(board_t *b)
 	int limit;
 	int idx = 0;
 	int cell;
-	for (int i =  0; i < NUM_COLUMNS; ++i) {
+	for (int i = 0; i < NUM_COLUMNS; ++i) {
 		for (int j = 0; j < NUM_CELLS; ++j) {
 			limit = NUM_CELLS - (1 + j);
 			while (idx < limit) {
 				cell = j + 1 + idx;
-				if (b->cols[i]->cells[j]
-				    && b->cols[i]->cells[cell]
-				    && b->cols[i]->cells[cell] != b->cols[i]->cells[j]) {
+				if (b->cols[i]->cells[j] &&
+				    b->cols[i]->cells[cell] &&
+				    b->cols[i]->cells[cell] !=
+					    b->cols[i]->cells[j]) {
 					// There might be merge candidates down the line but
 					// they are blocked and thus we break.
 					break;
-				} else if (!b->cols[i]->cells[cell] && !b->cols[i]->cells[j]) {
+				} else if (!b->cols[i]->cells[cell] &&
+					   !b->cols[i]->cells[j]) {
 					// Current cell and the other cell we are looking at
 					// are both empty. Increment idx and look at the next
 					// cell.
 					++idx;
-				} else if (b->cols[i]->cells[cell] && !b->cols[i]->cells[j]) {
+				} else if (b->cols[i]->cells[cell] &&
+					   !b->cols[i]->cells[j]) {
 					// There is a non-empty cell and the current cell is empty,
 					// so move the value and continue to look, cause there
 					// might be a merge candiate further down.
-					b->cols[i]->cells[j] = b->cols[i]->cells[cell];
+					b->cols[i]->cells[j] =
+						b->cols[i]->cells[cell];
 					b->cols[i]->cells[cell] = 0;
-				} else if (b->cols[i]->cells[cell] == b->cols[i]->cells[j]) {
+				} else if (b->cols[i]->cells[cell] ==
+					   b->cols[i]->cells[j]) {
 					// The next non-empty cell and the current one match,
 					// so merge the values and break;
 					b->cols[i]->cells[j] *= 2;
@@ -135,7 +138,6 @@ void mv_left(board_t *b)
 	}
 }
 
-
 /*
  * For the logic see MOVE_LOGIC in the repository root.
  * Move all tiles to the right and combine if tiles of equal value collide.
@@ -150,24 +152,29 @@ void mv_right(board_t *b)
 			limit = j;
 			while (idx < limit) {
 				cell = j - 1 - idx;
-				if (b->cols[i]->cells[j]
-				    && b->cols[i]->cells[cell]
-				    && b->cols[i]->cells[cell] != b->cols[i]->cells[j]) {
+				if (b->cols[i]->cells[j] &&
+				    b->cols[i]->cells[cell] &&
+				    b->cols[i]->cells[cell] !=
+					    b->cols[i]->cells[j]) {
 					// There might be merge candidates down the line, but
 					// they are blocked, thus we break.
 					break;
-				} else if (!b->cols[i]->cells[cell] && !b->cols[i]->cells[j]) {
+				} else if (!b->cols[i]->cells[cell] &&
+					   !b->cols[i]->cells[j]) {
 					// Current cell and the other cell we are looking at
 					// are both empty. Increment idx and look at the next
 					// cell.
 					++idx;
-				} else if (b->cols[i]->cells[cell] && !b->cols[i]->cells[j]) {
+				} else if (b->cols[i]->cells[cell] &&
+					   !b->cols[i]->cells[j]) {
 					// There is a non empty cell and the current cell is empty,
 					// so move the value and continue, as there might be
 					// further merge candidates down the line.
-					b->cols[i]->cells[j] = b->cols[i]->cells[cell];
+					b->cols[i]->cells[j] =
+						b->cols[i]->cells[cell];
 					b->cols[i]->cells[cell] = 0;
-				} else if (b->cols[i]->cells[cell] == b->cols[i]->cells[j]) {
+				} else if (b->cols[i]->cells[cell] ==
+					   b->cols[i]->cells[j]) {
 					// The next non-empty cell and the current one match,
 					// so merge the values and break.
 					b->cols[i]->cells[j] *= 2;
@@ -185,7 +192,6 @@ void mv_right(board_t *b)
 	}
 }
 
-
 /*
  * For the logic see MOVE_LOGIC in the repository root.
  * Move all tiles up and combine if tiles of equal value collide.
@@ -200,24 +206,29 @@ void mv_up(board_t *b)
 			limit = NUM_COLUMNS - (1 + j);
 			while (idx < limit) {
 				col = j + 1 + idx;
-				if (b->cols[j]->cells[i]
-				    && b->cols[col]->cells[i]
-				    && b->cols[col]->cells[i] != b->cols[j]->cells[i]) {
+				if (b->cols[j]->cells[i] &&
+				    b->cols[col]->cells[i] &&
+				    b->cols[col]->cells[i] !=
+					    b->cols[j]->cells[i]) {
 					// There might be merge candidates down the line,
 					// but they are blocked and thus we break.
 					break;
-				} else if (!b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
+				} else if (!b->cols[col]->cells[i] &&
+					   !b->cols[j]->cells[i]) {
 					// Current cell and the other cell are both zero,
 					// Look at the next cell.
 					++idx;
-				} else if (b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
+				} else if (b->cols[col]->cells[i] &&
+					   !b->cols[j]->cells[i]) {
 					// Current cell is zero, but we have found a
 					// non-zero one, move and continue as there
 					// might be further merge candidates down
 					// the line.
-					b->cols[j]->cells[i] = b->cols[col]->cells[i];
+					b->cols[j]->cells[i] =
+						b->cols[col]->cells[i];
 					b->cols[col]->cells[i] = 0;
-				} else if (b->cols[col]->cells[i] == b->cols[j]->cells[i]) {
+				} else if (b->cols[col]->cells[i] ==
+					   b->cols[j]->cells[i]) {
 					// Current cell and next non-zero one match, merge
 					// and break;
 					b->cols[j]->cells[i] *= 2;
@@ -248,25 +259,30 @@ void mv_down(board_t *b)
 			limit = j;
 			while (idx < limit) {
 				col = j - 1 - idx;
-				if (b->cols[j]->cells[i]
-				    && b->cols[col]->cells[i]
-				    && b->cols[col]->cells[i] != b->cols[j]->cells[i]) {
+				if (b->cols[j]->cells[i] &&
+				    b->cols[col]->cells[i] &&
+				    b->cols[col]->cells[i] !=
+					    b->cols[j]->cells[i]) {
 					// There might be merge candidates down
 					// the line, but they are blocked, thus
 					// we break
 					break;
-				} else if (!b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
+				} else if (!b->cols[col]->cells[i] &&
+					   !b->cols[j]->cells[i]) {
 					// Current cell and the other one are both
 					// zero, so move to the next cell
 					++idx;
-				} else if (b->cols[col]->cells[i] && !b->cols[j]->cells[i]) {
+				} else if (b->cols[col]->cells[i] &&
+					   !b->cols[j]->cells[i]) {
 					// Current cell is zero, but we've found a
 					// non-zero one, so move and continue as
 					// there might be further merge candidates
 					// down the line.
-					b->cols[j]->cells[i] = b->cols[col]->cells[i];
+					b->cols[j]->cells[i] =
+						b->cols[col]->cells[i];
 					b->cols[col]->cells[i] = 0;
-				} else if (b->cols[col]->cells[i] == b->cols[j]->cells[i]) {
+				} else if (b->cols[col]->cells[i] ==
+					   b->cols[j]->cells[i]) {
 					// Current cell and the next non-zero oen
 					// match, so merge and break.
 					b->cols[j]->cells[i] *= 2;
@@ -330,7 +346,6 @@ int game_over(board_t *b)
 
 	return n == (NUM_COLUMNS * NUM_CELLS);
 }
-
 
 /*
  * Helper to game_over
