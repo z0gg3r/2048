@@ -37,13 +37,19 @@ board_t *init()
 	}
 
 	b->points = 0;
-	for (int i = 0; i < NUM_COLUMNS; ++i) {
+	int i = 0;
+	for (i = 0; i < NUM_COLUMNS; ++i) {
 		column_t *c = calloc(1, sizeof(column_t));
 
 		if (!c) {
 			perror("2048: column_t calloc");
-			free(b);
-			return NULL;
+			
+			if (!i) {
+				free(b);
+				return NULL;
+			} else {
+				goto abort_column;
+			}
 		}
 
 		for (int j = 0; j < NUM_CELLS; ++j) {
@@ -54,6 +60,15 @@ board_t *init()
 	}
 
 	return b;
+
+abort_column:
+	for (int j = 0; j < i; ++j) {
+		free(b->cols[j]);
+	}
+
+	free(b);
+
+	return NULL;
 }
 
 /*
