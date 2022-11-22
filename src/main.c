@@ -236,6 +236,10 @@ int write_score(int score)
 {
 	int result = 0;
 	char *s = to_str(score);
+
+	if (!s)
+		goto execv_failure;
+
 	char *argv[] = { "sh", SCORES_SCRIPT, s, NULL };
 	pid_t pid = fork();
 
@@ -264,7 +268,13 @@ char *to_str(int i)
 	int len = snprintf(NULL, 0, "%d", i) + 1;
 
 	// We now malloc enough space for the new string
-	char *buf = malloc(sizeof(char) * len);
+	char *buf = calloc(len, sizeof(char));
+
+	if (!buf) {
+		perror("2048 - write_score - to_str");
+
+		return NULL;
+	}
 
 	// Write string to buf
 	snprintf(buf, len, "%d", i);
